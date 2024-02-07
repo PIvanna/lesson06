@@ -1,0 +1,111 @@
+<header>
+    <div id="logo">Angular Blog</div>
+    <div id="buttonsSign">
+        <button *ngIf="!activeStatus" (click)="SignIn()" type="button"
+            style="border: 2px solid seagreen; color: seagreen;" class="buttonsOpt">Sign In</button>
+        <button *ngIf="activeStatus" (click)="addPost()" type="button"
+            style="border: 2px solid seagreen; color: seagreen;" class="buttonsOpt">Add post</button>
+        <div *ngIf="profileStatus" id="profile" [textContent]="nameUser"></div>
+        <button *ngIf="!activeStatus" type="button" (click)="signOutOn()"
+            style="border: 2px solid slateblue; color: slateblue;" class="buttonsOpt">Sign Up</button>
+        <button *ngIf="activeStatus" type="button" (click)="SignOut()" style="border: 2px solid yellow; color: yellow;"
+            class="buttonsOpt">Sign Out</button>
+    </div>
+</header>
+<main>
+    <div class="container">
+        <div class="item" *ngFor="let blog of adminBlog">
+            <div class="item-left">
+                <p class="title">{{ blog.topic }}</p>
+                <p class="postedBy">Posted by: {{ blog.postedBy }}</p>
+                <p class="message">{{ blog.message }}</p>
+            </div>
+            <div class="item-right">
+                <p class="data">{{ blog.date | date: 'HH:mm, dd.MM.yyyy' }}</p>
+                <div *ngIf="activeStatusBut" class="buttonsManage">
+                    <button type="button" (click)="edit(blog)" style="background-color: yellow;"
+                        class="butMan">Edit</button>
+                    <button type="button" (click)="delete(blog)" style="background-color: red;"
+                        class="butMan">Delete</button>
+                </div>
+                <div [ngStyle]="{'display': (author.toLowerCase() === blog.postedBy.toLowerCase()) ? 'flex' : 'none'}"
+                    class="buttonsManage">
+                    <button type="button" (click)="edit(blog)" style="background-color: yellow;"
+                        class="butMan">Edit</button>
+                    <button type="button" (click)="delete(blog)" style="background-color: red;"
+                        class="butMan">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="signInStatus" class="modalSignIn">
+        <form id="formSignIn">
+            <div class="formSignInHeader">
+                <p class="nameForm">Sign In</p>
+                <button type="button" (click)="closeFormSignIn()" class="closeForm">X</button>
+            </div>
+            <div class="formIn">
+                <p class="nameOfInput">Email:</p>
+                <input type="text" placeholder="Email here..."
+                    [ngStyle]="{'borderColor': isColorEmailSignIn ? 'black' : 'red'}" [(ngModel)]="inputEmailSignIn"
+                    name="inputEmailSignIn" class="inputOfForm">
+                <p class="nameOfInput">Password:</p>
+                <input type="password" placeholder="Password here..."
+                    [ngStyle]="{'borderColor': isColorPasswordSignIn ? 'black' : 'red'}"
+                    [(ngModel)]="inputPasswordSignIn" name="inputPasswordSignIn" class="inputOfForm">
+            </div>
+            <div class="buttonsForm">
+                <button type="button" (click)="closeFormSignIn()" class="closeButton">Close</button>
+                <button type="button" (click)="submitSignIn()" class="suceedButton">Submit</button>
+            </div>
+        </form>
+    </div>
+    <div *ngIf="addPostStatus" class="modalSignIn">
+        <form id="formSignIn">
+            <div class="formSignInHeader">
+                <p class="nameForm">Add post</p>
+                <button type="button" (click)="closeFormAddPost()" class="closeForm">X</button>
+            </div>
+            <div class="formIn">
+                <p class="nameOfInput">Title:</p>
+                <input [ngStyle]="{'borderColor': isColorTitle ? 'black' : 'red'}" type="text"
+                    placeholder="Title here..." [(ngModel)]="inputTitle" name="inputTitle" class="inputOfForm">
+                <p class="nameOfInput">Text:</p>
+                <textarea [ngStyle]="{'borderColor': isColorTextarea ? 'black' : 'red'}" placeholder="Text here..."
+                    [(ngModel)]="textarea" name="textarea" class="textarea"></textarea>
+            </div>
+            <div class="buttonsForm">
+                <button type="button" (click)="closeFormAddPost()" class="closeButton">Close</button>
+                <button *ngIf="!EditStatus" type="button" (click)="submitAddPost()" class="suceedButton">Submit</button>
+                <button *ngIf="EditStatus" type="button" (click)="SaveEditPost()" class="suceedButton">Edit
+                    User</button>
+            </div>
+        </form>
+    </div>
+    <div *ngIf="SignUpStatus" class="modalSignIn">
+        <form id="formSignIn">
+            <div class="formSignInHeader">
+                <p class="nameForm">Sign Up</p>
+                <button type="button" (click)="closeFormSignUp()" class="closeForm">X</button>
+            </div>
+            <div class="formIn">
+                <p class="nameOfInput">Username:</p>
+                <input [ngStyle]="{'borderColor': isColorUsername ? 'black' : 'red'}" type="text"
+                    placeholder="Username here..." [(ngModel)]="inputUsername" name="inputUsername" class="inputOfForm">
+                <p class="nameOfInput">Email:</p>
+                <input [ngStyle]="{'borderColor': isColorEmailSignUp ? 'black' : 'red'}" type="text"
+                    placeholder="Email here..." [(ngModel)]="inputEmailSignUp" name="inputEmailSignUp"
+                    class="inputOfForm">
+                <p class="nameOfInput">Password:</p>
+                <input type="password" placeholder="Password here..."
+                    [ngStyle]="{'borderColor': isColorPasswordSignUp ? 'black' : 'red'}"
+                    [(ngModel)]="inputPasswordSignUp" name="inputPasswordSignUp" class="inputOfForm">
+            </div>
+            <div class="buttonsForm">
+                <button type="button" (click)="closeFormSignUp()" class="closeButton">Close</button>
+                <button type="button" (click)="submitSignUp()" style="background-color: blue;"
+                    class="suceedButton">Submit</button>
+            </div>
+        </form>
+    </div>
+</main>
